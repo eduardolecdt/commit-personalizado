@@ -218,6 +218,49 @@ ls -la commit-personalizado/commit-mensagem.sh
 chmod +x commit-personalizado/commit-mensagem.sh
 ```
 
+### Tornar executável DIRETAMENTE no Powershell (com Git Bash):
+Após a instalação do script com git bash, você pode executar os passos abaixo para executar o commit-mensagem.sh diretamente no powershell.
+
+#### 1. Abra o PowerShell.<br>Digite o seguinte comando para encontrar o caminho do seu arquivo de perfil:
+```powershell
+$PROFILE
+```
+Geralmente, o caminho é algo como:
+```powershell
+C:\Users\SeuUsuario\Documents\PowerShell\Microsoft.PowerShell_profile.ps1.
+```
+Se o arquivo não existir, crie-o. Você pode fazer isso diretamente no PowerShell:
+```powershell
+New-Item -Path $PROFILE -ItemType File -Force
+```
+#### 2. Abra o arquivo de perfil em um editor de texto (como o Visual Studio Code, Notepad++ ou até mesmo o Notepad):
+```powershell
+notepad $PROFILE
+# ou
+code $PROFILE
+```
+#### 3. Dentro do seu arquivo de perfil (Microsoft.PowerShell_profile.ps1), adicione o seguinte código:
+```powershell
+function Invoke-CommitCLI {
+    # Ajuste o caminho para o bash.exe se necessário
+    $bashPath = "C:\Program Files\Git\bin\bash.exe"
+
+    # Ajuste o caminho para o seu script
+    $scriptPath = "C:\dev\meu-script\commit-cli.sh"
+    
+    & $bashPath "$scriptPath"
+}
+
+# Cria o alias "cc" para executar a função. Altere 'cc' se desejar.
+Set-Alias -Name cc -Value Invoke-CommitCLI
+```
+
+#### 4. Recarregue o Perfil
+Depois de salvar as alterações no arquivo de perfil, feche e reabra o PowerShell, ou digite o seguinte comando para recarregar o perfil na sessão atual:
+```powershell
+. $PROFILE
+```
+
 ### Para WSL:
 
 #### 1. Abrir WSL:
@@ -255,6 +298,12 @@ chmod +x commit-personalizado/commit-mensagem.sh
 
 ```bash
 ./commit-personalizado/commit-mensagem.sh
+```
+
+### PowerShell:
+```powershell
+# Escreva o ALIAS criado no arquivo Microsoft.PowerShell_profile.ps1
+cc
 ```
 
 ### PowerShell (com WSL):
